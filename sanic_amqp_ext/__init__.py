@@ -4,7 +4,7 @@ from aioamqp import connect as amqp_connect
 from sanic_base_ext import BaseExtension
 
 
-__version__ = '0.1.0'
+__version__ = '0.1.1'
 __all__ = ['AmqpExtension', 'AmqpWorker', ]
 
 VERSION = __version__
