@@ -46,7 +46,7 @@ Example
 
     @app.route("/")
     async def handle(request):
-        transport, protocol = request.app.amqp.connect()  # create a new connection
+        transport, protocol = await request.app.amqp.connect()  # create a new connection
         # do some stuff here ...
         # P.S. but don't forget to close the connection after using
         return response.text("It's works!")
