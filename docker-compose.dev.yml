@@ -1,0 +1,41 @@
+version: "2"
+
+networks:
+  app-tier:
+    driver: bridge
+
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: sanic-amqp-ext-dev
+    environment:
+      - APP_HOST=0.0.0.0
+      - APP_DEBUG=False
+      - APP_SERVER=none
+      - WAIT_FOR_RABBITMQ=30
+      - AMQP_USERNAME=user
+      - AMQP_PASSWORD=password
+      - AMQP_HOST=rabbitmq
+      - AMQP_VIRTUAL_HOST=/
+    volumes:
+      - ./:/app/
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-tier
+    tty: true
+
+  rabbitmq:
+    image: bitnami/rabbitmq:latest
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_USERNAME=user
+      - RABBITMQ_PASSWORD=password
+      - RABBITMQ_VHOST=/
+    networks:
+      - app-tier
