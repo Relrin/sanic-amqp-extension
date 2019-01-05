@@ -58,3 +58,11 @@ The sanic-amqp-extension is published under BSD license. For more details read L
 .. _links:
 .. _aioamqp: http://aioamqp.readthedocs.io/
 .. _LICENSE: https://github.com/Relrin/sanic-amqp-extension/blob/master/LICENSE
+
+Real project examples
+=====================
+Open Matchmaking project:  
+
+- `Auth/Auth microservice <https://github.com/OpenMatchmaking/microservice-auth/>`_
+- `Game servers pool microservice <https://github.com/OpenMatchmaking/microservice-game-servers-pool/>`_
+- `Player statistics microservice <https://github.com/OpenMatchmaking/microservice-player-statistics/>`_
