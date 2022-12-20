@@ -7,8 +7,8 @@ from setuptools import setup
 
 _version_re = re.compile(r'__version__\s+=\s+(.*)')
 requirements = [
-    'sanic-base-extension==0.1.1',
-    'aioamqp==0.12.0',
+    'sanic-base-extension==0.2.0',
+    'aioamqp==0.15.0',
 ]
 
 

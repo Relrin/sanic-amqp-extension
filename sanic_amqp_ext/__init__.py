@@ -4,7 +4,7 @@ from aioamqp import connect as amqp_connect
 from sanic_base_ext import BaseExtension
 
 
-__version__ = '0.1.2'
+__version__ = '0.2.0'
 __all__ = ['AmqpExtension', 'AmqpWorker', ]
 
 VERSION = __version__
@@ -21,7 +21,7 @@ class AmqpWorker(object):
         raise NotImplementedError('`run(*args, **kwargs)` method must be implemented.')
 
     async def connect(self):
-        self.transport, self.protocol = await self.app.amqp.connect()
+        self.transport, self.protocol = await self.app.ctx.amqp.connect()
         return self.transport, self.protocol
 
     async def deinit(self):
@@ -66,11 +66,11 @@ class AmqpExtension(BaseExtension):
 
         @app.listener('before_server_start')
         async def aioamqp_configure(app_inner, loop):
-            setattr(app_inner, self.app_attribute, self)
+            setattr(app_inner.ctx, self.app_attribute, self)
 
-            if not hasattr(app_inner, 'extensions'):
-                setattr(app_inner, 'extensions', {})
-            app_inner.extensions[self.extension_name] = self
+            if not hasattr(app_inner.ctx, 'extensions'):
+                setattr(app_inner.ctx, 'extensions', {})
+            app_inner.ctx.extensions[self.extension_name] = self
 
             for worker in self.workers:
                 task = ensure_future(worker.run(), loop=loop)
@@ -85,6 +85,6 @@ class AmqpExtension(BaseExtension):
             for worker in self.workers:
                 await worker.deinit()
 
-            setattr(app_inner, self.app_attribute, None)
-            extensions = getattr(app_inner, 'extensions', {})
+            setattr(app_inner.ctx, self.app_attribute, None)
+            extensions = getattr(app_inner.ctx, 'extensions', {})
             extensions.pop(self.extension_name, None)
